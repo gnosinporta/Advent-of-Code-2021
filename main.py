@@ -1,4 +1,4 @@
-'''
+"""
 https://adventofcode.com/2021/day/1
 
 --- Day 1: Sonar Sweep ---
@@ -55,14 +55,13 @@ measurement before the first measurement.) In the example above, the changes are
 In this example, there are 7 measurements that are larger than the previous measurement.
 
 How many measurements are larger than the previous measurement?
-'''
+"""
 
 from pathlib import Path
-from typing import List
 
+# making the file path universally compatible with pathlib
 FOLDER = "inputs/"
 INPUT_FILE = "day1.txt"
-
 folder = Path(FOLDER)
 file_to_open = folder / INPUT_FILE
 
@@ -74,18 +73,19 @@ with open(file_to_open) as file:
 # this list will have all the data in int
 input_int = []
 
+# counter of measurements larger than previous one
 measurement_counter = 0
 
-# https://realpython.com/python-enumerate/
-
-# print(enumerate(data))
-
+# main calculation loop
 for i, element in enumerate(data):
 
     aux = int(element)
     input_int.append(aux)
     
+    # in order to compare the elements, the first one must be available upfront
+    # thu this loop will be available starting with the second element
     if i != 0 and input_int[i] > input_int[i-1]:
         measurement_counter += 1
 
+# solution
 print(measurement_counter)
