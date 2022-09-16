@@ -3,4 +3,6 @@ Advent of Code is an annual set of Christmas-themed computer programming challen
 
 ⚡ W O R K - I N - P R O G R E S S ⚡
 
-🔧 L A S T - U P D A T E : september 15, 2022
+☄ CURRENTLY SOLVING: Day 1, part 2
+
+🔧 L A S T - U P D A T E : september 15, 2022 
