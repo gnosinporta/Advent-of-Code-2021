@@ -24,8 +24,10 @@ class Day2:
 
         # solution
         print(f'Day 2, Part 1: {self.part1()}')
+        print(f'Day 2, Part 2: {self.part2()}')
 
-    # main calculation function
+    # main calculation functions
+
     def part1(self):
 
         """
@@ -67,6 +69,7 @@ class Day2:
         """
 
         for element in self.data:
+            # each time, aux will have the form [direction, X], that is, aux[0] and aux[1]
             aux = element.split()
 
             match aux[0]:
@@ -77,6 +80,7 @@ class Day2:
                 case 'down':
                     self.final_depth += int(aux[1])
 
+        # solution return
         return self.final_depth * self.final_h_position
 
     def part2(self):
@@ -88,13 +92,14 @@ class Day2:
         and discover that the process is actually slightly more complicated.
 
         In addition to horizontal position and depth, you'll also need to track a third value, aim, which also starts
-        at 0. The commands also mean something entirely different than you first thought:
+        at 0. The commands also mean something entirely different from you first thought:
 
         down X increases your aim by X units.
         up X decreases your aim by X units.
         forward X does two things:
-        It increases your horizontal position by X units.
-        It increases your depth by your aim multiplied by X.
+        -It increases your horizontal position by X units.
+        -It increases your depth by your aim multiplied by X.
+
         Again note that since you're on a submarine, down and up do the opposite of what you might expect: "down" means
         aiming in the positive direction.
 
@@ -115,3 +120,24 @@ class Day2:
         following the planned course. What do you get if you multiply your final horizontal position by your final
         depth?
         """
+
+        # let's reset the important variables
+        self.final_depth = 0
+        self.final_h_position = 0
+        aim = 0
+
+        # the method is the same as before, but following the new commands
+        for element in self.data:
+            aux = element.split()
+
+            match aux[0]:
+                case 'forward':
+                    self.final_h_position += int(aux[1])
+                    self.final_depth += (aim * int(aux[1]))
+                case 'up':
+                    aim -= int(aux[1])
+                case 'down':
+                    aim += int(aux[1])
+
+        # solution return
+        return self.final_depth * self.final_h_position
