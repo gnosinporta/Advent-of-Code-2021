@@ -19,9 +19,17 @@ class Day3:
             file_input = file.read()
             self.data = file_input.split()
 
+        """
+        self.oxigen_gen_rating = 0
+        self.co2_scrubber_rating = 0
+        """
+
         print(f'Day 3, Part 1: {self.part1}')
+        print(f'Day 3, Part 2: {self.part2}')
 
         # print(self.data)
+
+    
 
     @property
     def part1(self):
@@ -112,6 +120,7 @@ class Day3:
 
         return power_consumption
 
+    @property
     def part2(self):
         """
         The first half of this puzzle is complete! It provides one gold star: *
@@ -166,3 +175,24 @@ class Day3:
         rating, then multiply them together. What is the life support rating of the submarine? (Be sure to represent
         your answer in decimal, not binary.)
         """
+
+        # recursive function 
+        def main_calculation(target, set):
+            pass
+
+        # let's make two copies of the data, one for each number we need to find
+        data_copy1 = self.data
+        data_copy2 = self.data
+        
+        oxigen_gen_rating = Utilities.str_to_dec(main_calculation(1, data_copy1), len(data_copy1[0]))
+        co2_scrubber_rating = Utilities.str_to_dec(main_calculation(0, data_copy2), len(data_copy2[0]))
+
+        life_support_rating = oxigen_gen_rating * co2_scrubber_rating
+
+        return life_support_rating
+
+        
+
+
+    
+
