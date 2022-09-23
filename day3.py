@@ -29,8 +29,6 @@ class Day3:
 
         # print(self.data)
 
-    
-
     @property
     def part1(self):
         """
@@ -176,23 +174,65 @@ class Day3:
         your answer in decimal, not binary.)
         """
 
-        # recursive function 
-        def main_calculation(target, set):
-            pass
+        # this is a recursive function that calculates the required numbers
+        # if target = 1, it will make the calculation for the oxygen generator rating
+        # if target = 0, it will make the calculation for the co2 scrubber rating
+        def main_calculation(init, target, dataset):
+            # print(type(dataset))
+            print(len(dataset))
+            if len(dataset) == 1:
+                return dataset
+            else:
+                aux = one_or_zero(init, target, dataset)
+                print(aux)
+                destroy_targets(aux, init, dataset)
+                init += 1
+                main_calculation(init, target, dataset)
+
+        # this function inherits the target functionality of main_calculation()
+        # it returns the bit needed to eliminate the required numbers
+        def one_or_zero(position, target, dataset):
+
+            one = 0
+            zero = 0
+
+            # print(position)
+
+            # print(type(dataset))
+            for element in dataset:
+                aux = list(element)
+                # print(position)
+                if aux[position] == '1':
+                    one += 1
+                else:
+                    zero += 1
+
+            if target == 1:
+                if one >= zero:
+                    return 1
+                else:
+                    return 0
+            else:
+                if zero <= one:
+                    return 0
+                else:
+                    return 1
+
+        # this function eliminates all the numbers that have the target_bit in the required position
+        def destroy_targets(target_bit, position, dataset):
+            for i, element in enumerate(dataset):
+                if list(element[position]) == target_bit:
+                    del dataset[i]
 
         # let's make two copies of the data, one for each number we need to find
         data_copy1 = self.data
         data_copy2 = self.data
-        
-        oxigen_gen_rating = Utilities.str_to_dec(main_calculation(1, data_copy1), len(data_copy1[0]))
-        co2_scrubber_rating = Utilities.str_to_dec(main_calculation(0, data_copy2), len(data_copy2[0]))
 
-        life_support_rating = oxigen_gen_rating * co2_scrubber_rating
+        # print(type(data_copy1))
+
+        oxygen_gen_rating = Utilities.str_to_dec(main_calculation(0, 1, data_copy1), len(data_copy1[0]))
+        co2_scrubber_rating = Utilities.str_to_dec(main_calculation(0, 0, data_copy2), len(data_copy2[0]))
+
+        life_support_rating = oxygen_gen_rating * co2_scrubber_rating
 
         return life_support_rating
-
-        
-
-
-    
-
