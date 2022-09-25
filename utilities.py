@@ -1,7 +1,7 @@
 class Utilities:
 
     @staticmethod
-    def str_to_dec(bin_str, length):
+    def str_to_dec(bin_str: object, length: object) -> object:
 
         aux = list(bin_str)
         aux2 = length
