@@ -19,10 +19,11 @@ class Day3:
             file_input = file.read()
             self.data = file_input.split()
 
-        """
-        self.oxigen_gen_rating = 0
-        self.co2_scrubber_rating = 0
-        """
+        self.oxigen_gen_rating = ''
+        self.co2_scrubber_rating = ''
+
+        self.oxygen_dataset = self.data
+        self.co2_dataset = self.data
 
         print(f'Day 3, Part 1: {self.part1}')
         print(f'Day 3, Part 2: {self.part2}')
@@ -121,6 +122,7 @@ class Day3:
     @property
     def part2(self):
         """
+    
         The first half of this puzzle is complete! It provides one gold star: *
 
         --- Part Two ---
@@ -173,66 +175,47 @@ class Day3:
         rating, then multiply them together. What is the life support rating of the submarine? (Be sure to represent
         your answer in decimal, not binary.)
         """
+        self.get_ratings()
+        print(len(self.oxygen_dataset[0]))
+        for i in range(0, len(self.data[0])):
+            print(i)
+        print(range(0, len(self.data[0])))
+        oxy_dec = Utilities.str_to_dec(self.oxygen_dataset[0], len(self.oxygen_dataset[0]))
+        print(oxy_dec)
+        co2_dec = Utilities.str_to_dec(self.co2_dataset[0], len(self.co2_dataset[0]))
+        life_support_rating = oxy_dec * co2_dec
+        return life_support_rating
 
-        # this is a recursive function that calculates the required numbers
-        # if target = 1, it will make the calculation for the oxygen generator rating
-        # if target = 0, it will make the calculation for the co2 scrubber rating
-        def main_calculation(init, target, dataset):
-            # print(type(dataset))
-            print(len(dataset))
-            if len(dataset) == 1:
-                return dataset
-            else:
-                aux = one_or_zero(init, target, dataset)
-                print(aux)
-                destroy_targets(aux, init, dataset)
-                init += 1
-                main_calculation(init, target, dataset)
-
-        # this function inherits the target functionality of main_calculation()
-        # it returns the bit needed to eliminate the required numbers
-        def one_or_zero(position, target, dataset):
-
+    def get_ratings(self):
+        for i in range(0, len(self.data[0])):
             one = 0
             zero = 0
-
-            # print(position)
-
-            # print(type(dataset))
-            for element in dataset:
+            for element in self.data:
                 aux = list(element)
-                # print(position)
-                if aux[position] == '1':
+                if aux[i] == '1':
                     one += 1
                 else:
                     zero += 1
-
-            if target == 1:
-                if one >= zero:
-                    return 1
-                else:
-                    return 0
+            # getting oxygen rating
+            if one >= 0:
+                self.del_elements('0', i, self.oxygen_dataset)
             else:
-                if zero <= one:
-                    return 0
-                else:
-                    return 1
+                self.del_elements('1', i, self.oxygen_dataset)
 
-        # this function eliminates all the numbers that have the target_bit in the required position
-        def destroy_targets(target_bit, position, dataset):
+            # getting co2 rating
+            if zero <= one:
+                self.del_elements('1', i, self.co2_dataset)
+            else:
+                self.del_elements('0', i, self.co2_dataset)
+
+            print(self.oxygen_dataset, self.co2_dataset)
+
+    @staticmethod
+    def del_elements(bit, position, dataset):
+        if len(dataset) == 1:
+            pass
+        else:
             for i, element in enumerate(dataset):
-                if list(element[position]) == target_bit:
+                aux = list(element)
+                if aux[position] == bit:
                     del dataset[i]
-
-        # let's make two copies of the data, one for each number we need to find
-        data_copy1 = self.data
-        data_copy2 = self.data
-
-        # print(type(data_copy1))
-
-        oxygen_gen_rating = Utilities.str_to_dec(main_calculation(0, 1, data_copy1), len(data_copy1[0]))
-        co2_scrubber_rating = Utilities.str_to_dec(main_calculation(0, 0, data_copy2), len(data_copy2[0]))
-
-        life_support_rating = oxygen_gen_rating * co2_scrubber_rating
-
-        return life_support_rating
